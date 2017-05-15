@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from "react";
-import History from "react-history/HashHistory";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import History from "react-history/BrowserHistory";
 
 import theme from "../themes/default";
 import Context from "./context";
@@ -14,7 +15,8 @@ export default class Controller extends Component {
     const styles = this.props.theme ? this.props.theme : theme();
     return (
       <History>
-        {({ history, location }) => {
+        {(history) => {
+          const { action, location } = history;
           const printEnabled = location.search.indexOf("print") !== -1;
           return (
             <Context

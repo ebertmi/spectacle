@@ -1,11 +1,24 @@
-import React, { cloneElement, Component, PropTypes } from "react";
+import React, { cloneElement, Component } from "react";
+import PropTypes from "prop-types";
 import Radium from "radium";
+import { getSlideByIndex } from "../utils/slides";
+import styled from "styled-components";
+
+const SpectacleExport = styled.div`
+  height: 100%;
+  width: 100%;
+`;
 
 @Radium
 export default class Export extends Component {
   _renderSlides() {
-    return this.props.slides.map((child, index) => {
-      return cloneElement(child, {
+    return this.props.slideReference.map((reference, index) => {
+      const slide = getSlideByIndex(
+        this.props.slides,
+        this.props.slideReference,
+        index
+      );
+      return cloneElement(slide, {
         key: index,
         slideIndex: index,
         export: this.props.route.params.indexOf("export") !== -1,
@@ -16,22 +29,17 @@ export default class Export extends Component {
     });
   }
   render() {
-    const styles = {
-      export: {
-        height: "100%",
-        width: "100%"
-      }
-    };
     return (
-      <div className="spectacle-export" style={[styles.export]}>
+      <SpectacleExport>
         {this._renderSlides()}
-      </div>
+      </SpectacleExport>
     );
   }
 }
 
 Export.propTypes = {
   route: PropTypes.object,
+  slideReference: PropTypes.array,
   slides: PropTypes.array
 };
 

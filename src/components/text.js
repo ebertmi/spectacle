@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { getStyles } from "../utils/base";
 import Radium from "radium";
 
@@ -30,7 +31,7 @@ export default class Text extends Component {
       const container = this.containerRef;
       text.style.display = "inline-block";
       const scale = (container.offsetWidth / text.offsetWidth);
-      const height = text.offsetHeight * scale;
+      const height = (text.offsetHeight * scale) || 0;
       text.style.display = "block";
       this.setState({
         scale,
@@ -59,6 +60,7 @@ export default class Text extends Component {
         lineHeight
       }
     };
+    const typefaceStyle = this.context.typeface || {};
     return (
       fit ? (
         <div
@@ -68,13 +70,13 @@ export default class Text extends Component {
         >
           <span
             ref={(t) => { this.textRef = t; }}
-            style={[styles.text, style]}
+            style={[styles.text, style, typefaceStyle]}
           >
             {children}
           </span>
         </div>
       ) : (
-        <p className={this.props.className} style={[this.context.styles.components.text, getStyles.call(this), styles.nonFit, style]}>
+        <p className={this.props.className} style={[this.context.styles.components.text, getStyles.call(this), styles.nonFit, style, typefaceStyle]}>
           {children}
         </p>
       )
@@ -95,5 +97,7 @@ Text.propTypes = {
 };
 
 Text.contextTypes = {
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  store: PropTypes.object,
+  typeface: PropTypes.object
 };

@@ -1,16 +1,17 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import Radium from "radium";
 
 @Radium
 export default class Progress extends Component {
   getWidth() {
     return {
-      width: `${(100 * this.props.currentSlide / (this.props.items.length - 1))}%`
+      width: `${(100 * this.props.currentSlideIndex / (this.props.items.length - 1))}%`
     };
   }
 
   getPacmanStyle(side) {
-    const animationName = `pacman${side}Frames${(this.props.currentSlide % 2 ? "" : "Bis")}`;
+    const animationName = `pacman${side}Frames${(this.props.currentSlideIndex % 2 ? "" : "Bis")}`;
     return {
       animation: `${animationName} 0.12s linear 10 alternate both`
     };
@@ -25,7 +26,7 @@ export default class Progress extends Component {
 
   getPointStyle(i) {
     const style = this.getPointPosition(i);
-    if (this.props.currentSlide >= i) {
+    if (this.props.currentSlideIndex >= i) {
       style.opacity = 0;
     }
 
@@ -33,7 +34,7 @@ export default class Progress extends Component {
   }
 
   render() {
-    const { type, currentSlide, items } = this.props;
+    const { type, currentSlideIndex, items } = this.props;
     let style = this.context.styles.progress;
     let markup;
     switch (type) {
@@ -43,7 +44,7 @@ export default class Progress extends Component {
         style = style.pacman;
         markup = (
           <div>
-            <div style={[style.pacman, this.getPointPosition(currentSlide)]} >
+            <div style={[style.pacman, this.getPointPosition(currentSlideIndex)]} >
               <div style={[style.pacmanTop, this.getPacmanStyle("Top")]} />
               <div style={[style.pacmanBottom, this.getPacmanStyle("Bottom")]} />
             </div>
@@ -61,7 +62,7 @@ export default class Progress extends Component {
       case "number":
         style = style.number;
         markup = (
-          <div>{currentSlide + 1} / {items.length}</div>
+          <div>{currentSlideIndex + 1} / {items.length}</div>
         );
         break;
       case "bar":
@@ -82,7 +83,7 @@ export default class Progress extends Component {
 }
 
 Progress.propTypes = {
-  currentSlide: PropTypes.number,
+  currentSlideIndex: PropTypes.number,
   items: PropTypes.array,
   type: PropTypes.oneOf(["pacman", "bar", "number", "none"])
 };

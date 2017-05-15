@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { getStyles } from "../utils/base";
 import Radium from "radium";
 
@@ -41,5 +42,6 @@ Image.propTypes = {
 };
 
 Image.contextTypes = {
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  store: PropTypes.object
 };

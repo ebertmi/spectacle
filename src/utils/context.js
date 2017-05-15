@@ -1,5 +1,7 @@
-import { Component, PropTypes } from "react";
+import { Component } from "react";
+import PropTypes from "prop-types";
 import { updateRoute } from "../actions";
+import { countSlides } from "./slides";
 
 class Context extends Component {
   static displayName = "Context";
@@ -31,7 +33,7 @@ class Context extends Component {
     this._handleLocationChange(nextProps);
   }
   _handleLocationChange({ history, store, children: deck }) {
-    const slideCount = deck.props.children.length;
+    const slideCount = countSlides(deck.props.children);
     store.dispatch(updateRoute({
       location: history.location,
       slideCount

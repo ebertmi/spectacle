@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { getStyles } from "../utils/base";
 import Radium from "radium";
 import isUndefined from "lodash/isUndefined";
@@ -33,7 +34,8 @@ export default class CodePane extends Component {
 }
 
 CodePane.contextTypes = {
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  store: PropTypes.object
 };
 
 CodePane.propTypes = {

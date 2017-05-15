@@ -1,11 +1,13 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import isUndefined from "lodash/isUndefined";
 import { getStyles } from "../utils/base";
-import radium from "radium";
+import Radium from "radium";
 import { addFragment } from "../actions";
 import { Transitionable, renderTransition } from "./transitionable";
 
 @Transitionable
+@Radium
 class Slide extends Component {
   state = {
     contentScale: 1,
@@ -181,4 +183,4 @@ Slide.contextTypes = {
   store: PropTypes.object
 };
 
-export default radium(Slide);
+export default Slide;

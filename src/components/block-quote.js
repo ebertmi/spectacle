@@ -1,12 +1,14 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { getStyles } from "../utils/base";
 import Radium from "radium";
 
 @Radium
 export default class BlockQuote extends Component {
   render() {
+    const typefaceStyle = this.context.typeface || {};
     return (
-      <blockquote className={this.props.className} style={[this.context.styles.components.blockquote, getStyles.call(this), this.props.style]}>
+      <blockquote className={this.props.className} style={[this.context.styles.components.blockquote, getStyles.call(this), this.props.style, typefaceStyle]}>
         {this.props.children}
       </blockquote>
     );
@@ -20,5 +22,7 @@ BlockQuote.propTypes = {
 };
 
 BlockQuote.contextTypes = {
-  styles: PropTypes.object
+  styles: PropTypes.object,
+  store: PropTypes.object,
+  typeface: PropTypes.object
 };
