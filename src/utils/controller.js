@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import History from "react-history/BrowserHistory";
+import History from "react-history/HashHistory";
 
 import theme from "../themes/default";
 import Context from "./context";
