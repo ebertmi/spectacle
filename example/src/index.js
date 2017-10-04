@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {
-  Appear, BlockQuote, Cite, CodePane, Deck, Fill,
-  Heading, Image, Layout, Link, ListItem, List, Quote, Slide, SlideSet,
+  Appear, BlockQuote, Cite, CodePane, ComponentPlayground, Deck, Fill,
+  Heading, Image, Layout, Link, ListItem, List, Markdown, MarkdownSlides, Quote, Slide, SlideSet,
   TableBody, TableHeader, TableHeaderItem, TableItem, TableRow, Table, Text
 } from '../../src';
 
