@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ContentContainer = styled.div`
   display: flex;
@@ -36,6 +36,7 @@ export const PreviewCurrentSlide = styled.div`
   display: flex;
   flex: 0 0 100%;
   height: 55%;
+  width: 55%;
   padding: 20px;
 `;
 
@@ -67,6 +68,7 @@ export const Notes = styled.div`
   position: absolute;
   top: 10%;
   width: (40% - 100px);
+  overflow: auto;
 `;
 
 export const SlideInfo = styled.h2`

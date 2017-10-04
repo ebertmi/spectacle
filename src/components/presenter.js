@@ -1,26 +1,32 @@
-import React, { Children, cloneElement, Component } from "react";
-import PropTypes from "prop-types";
-import { getSlideByIndex } from "../utils/slides";
+import React, { Children, cloneElement, Component } from 'react';
+import PropTypes from 'prop-types';
+import { getSlideByIndex } from '../utils/slides';
 import {
-  HeaderContainer, EndHeader, PresenterContent, SlideInfo,
-  ContentContainer, PreviewPane, PreviewCurrentSlide,
-  PreviewNextSlide, Notes
-} from "./presenter-components";
+  HeaderContainer,
+  EndHeader,
+  PresenterContent,
+  SlideInfo,
+  ContentContainer,
+  PreviewPane,
+  PreviewCurrentSlide,
+  PreviewNextSlide,
+  Notes,
+} from './presenter-components';
 
-import Time from "./time";
+import Time from './time';
 
 export default class Presenter extends Component {
   static childContextTypes = {
-    updateNotes: PropTypes.func
+    updateNotes: PropTypes.func,
   };
 
   state = {
-    notes: {}
+    notes: {},
   };
 
   getChildContext() {
     return {
-      updateNotes: this.updateNotes.bind(this)
+      updateNotes: this.updateNotes.bind(this),
     };
   }
 
@@ -28,9 +34,9 @@ export default class Presenter extends Component {
     return this.context.store.getState().route.slide;
   }
 
-  updateNotes(newNotes) {
+  updateNotes(newNotes, slide = null) {
     const notes = { ...this.state.notes };
-    notes[this.getCurrentSlide()] = newNotes;
+    notes[slide || this.getCurrentSlide()] = newNotes;
 
     this.setState({ notes });
   }
@@ -43,43 +49,45 @@ export default class Presenter extends Component {
     );
   }
   _renderMainSlide() {
-    const { slideIndex, hash, lastSlide } = this.props;
+    const { slideIndex, hash, lastSlideIndex } = this.props;
     const child = this._getSlideByIndex(slideIndex);
     const presenterStyle = {
-      position: "relative"
+      position: 'relative',
     };
     return cloneElement(child, {
       dispatch: this.props.dispatch,
       key: slideIndex,
       hash,
-      export: this.props.route.params.indexOf("export") !== -1,
-      print: this.props.route.params.indexOf("print") !== -1,
+      export: this.props.route.params.indexOf('export') !== -1,
+      print: this.props.route.params.indexOf('print') !== -1,
       slideIndex,
-      lastSlide,
-      transition: [],
-      transitionDuration: 0,
-      presenterStyle
-    });
-  }
-  _renderNextSlide() {
-    const { slideIndex, lastSlide } = this.props;
-    const presenterStyle = {
-      position: "relative"
-    };
-    const child = this._getSlideByIndex(slideIndex + 1);
-    return child ? cloneElement(child, {
-      dispatch: this.props.dispatch,
-      export: this.props.route.params.indexOf("export") !== -1,
-      print: this.props.route.params.indexOf("print") !== -1,
-      key: slideIndex + 1,
-      hash: child.props.id || slideIndex + 1,
-      slideIndex: slideIndex + 1,
-      lastSlide,
+      lastSlideIndex,
       transition: [],
       transitionDuration: 0,
       presenterStyle,
-      appearOff: true
-    }) : <EndHeader>END</EndHeader>;
+    });
+  }
+  _renderNextSlide() {
+    const { slideIndex, lastSlideIndex } = this.props;
+    const presenterStyle = {
+      position: 'relative',
+    };
+    const child = this._getSlideByIndex(slideIndex + 1);
+    return child
+      ? cloneElement(child, {
+          dispatch: this.props.dispatch,
+          export: this.props.route.params.indexOf('export') !== -1,
+          print: this.props.route.params.indexOf('print') !== -1,
+          key: slideIndex + 1,
+          hash: child.props.id || slideIndex + 1,
+          slideIndex: slideIndex + 1,
+          lastSlideIndex,
+          transition: [],
+          transitionDuration: 0,
+          presenterStyle,
+          appearOff: true,
+        })
+      : <EndHeader>END</EndHeader>;
   }
   _renderNotes() {
     let notes;
@@ -92,9 +100,11 @@ export default class Presenter extends Component {
       notes = child.props.notes;
     }
 
-    if (!notes) { return false; }
+    if (!notes) {
+      return false;
+    }
 
-    if (typeof notes === "string") {
+    if (typeof notes === 'string') {
       return <div dangerouslySetInnerHTML={{ __html: notes }} />;
     }
     return <div>{notes}</div>;
@@ -104,13 +114,19 @@ export default class Presenter extends Component {
       <PresenterContent>
         <HeaderContainer>
           <SlideInfo>
-            Slide {this.props.slideIndex + 1} of {this.props.slideReference.length}
+            Slide
+            {' '}
+            {this.props.slideIndex + 1}
+            {' '}
+            of
+            {' '}
+            {this.props.slideReference.length}
           </SlideInfo>
           <Time timer={this.props.timer} />
         </HeaderContainer>
         <ContentContainer>
           <PreviewPane>
-            <PreviewCurrentSlide>
+            <PreviewCurrentSlide className="spectacle-presenter-main">
               {this._renderMainSlide()}
             </PreviewCurrentSlide>
             <PreviewNextSlide>
@@ -129,15 +145,15 @@ export default class Presenter extends Component {
 Presenter.propTypes = {
   dispatch: PropTypes.func,
   hash: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  lastSlide: PropTypes.number,
+  lastSlideIndex: PropTypes.number,
   route: PropTypes.object,
   slideIndex: PropTypes.number,
   slideReference: PropTypes.array,
   slides: PropTypes.array,
-  timer: PropTypes.bool
+  timer: PropTypes.bool,
 };
 
 Presenter.contextTypes = {
   styles: PropTypes.object,
-  store: PropTypes.object.isRequired
+  store: PropTypes.object.isRequired,
 };

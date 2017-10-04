@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import { mount } from "enzyme";
-import { mountToJson } from "enzyme-to-json";
-import SlideSet from "./slide-set";
+import React, { Component } from 'react';
+import { mount } from 'enzyme';
+import SlideSet from './slide-set';
 
-const _mockContext = function () {
+const _mockContext = function() {
   return {};
 };
 
@@ -13,14 +12,15 @@ class MockSlide extends Component {
   }
 }
 
-describe("<SlideSet />", () => {
-  test("should render correctly", () => {
-    const wrapper = mount((
+describe('<SlideSet />', () => {
+  test('should render correctly', () => {
+    const wrapper = mount(
       <SlideSet>
         <MockSlide />
         <MockSlide />
-      </SlideSet>
-    ), { context: _mockContext() });
-    expect(mountToJson(wrapper)).toMatchSnapshot();
+      </SlideSet>,
+      { context: _mockContext() }
+    );
+    expect(wrapper).toMatchSnapshot();
   });
 });
